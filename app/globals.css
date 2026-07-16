@@ -1,0 +1,81 @@
+/* Design tokens + global styles ported from the original EasyMCA build */
+:root{--bg:#fbfbfa;--surface:#ffffff;--surface2:#f5f5f4;--border:#ececea;--border2:#e0dfdc;--text:#191918;--text2:#5d5c58;--text3:#9c9b96;--accent:#2e6be6;--accent2:#2258c9;--accent-bg:#edf3fe;--accent-grad:linear-gradient(180deg,#3e77ec,#2a63dd);--ok:#188544;--ok-bg:#e9f6ee;--warn:#b26205;--warn-bg:#fcf3e2;--bad:#d92d20;--bad-bg:#fdecea;--viz:#2e6be6;--side-bg:#f7f7f5;--side-surface:#efefed;--side-text:#55544f;--side-dim:#9c9b94;--side-active-bg:#ebebe8;--side-border:#ebebe8;--glass:#ffffff;--glass2:#ffffff;--glass-brd:#ececea;--glass-blur:none;--sans:'Geist',system-ui,-apple-system,sans-serif;--serif:'Geist',system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,monospace;--shadow:0 1px 2px rgba(16,15,13,.04);--shadow-lg:0 2px 4px rgba(16,15,13,.05),0 16px 40px rgba(16,15,13,.1)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:var(--sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+input,textarea,button{font-family:inherit}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-thumb{background:#d8dadf;border-radius:9px;border:3px solid transparent;background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background:#c4c7cd;background-clip:padding-box}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes srcSlide{from{transform:translateX(40px);opacity:.4}to{transform:none;opacity:1}}
+@keyframes blink{0%,80%,100%{opacity:.22}40%{opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes barGrow{from{width:0}}
+@keyframes blobDrift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(28px,-22px) scale(1.08)}100%{transform:translate(0,0) scale(1)}}
+@keyframes blobDrift2{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-26px,20px) scale(1.1)}100%{transform:translate(0,0) scale(1)}}
+@keyframes orbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media (max-width:1240px){.uw-ctx{display:none!important}}
+@media (max-width:1000px){.uw-queue{display:none!important}}
+
+/* ===== Responsive layer =====
+   Inline styles are string-based (sx), so media queries live here and win
+   with !important. Views opt in via small utility classes. */
+
+/* --- Sidebar: off-canvas drawer on small screens --- */
+.sidebar-toggle,.sidebar-close{display:none}
+@media (max-width:900px){
+  .app-sidebar{position:fixed!important;top:0;left:0;bottom:0;height:100dvh;z-index:90!important;transform:translateX(-105%);transition:transform .22s ease;box-shadow:0 12px 40px rgba(16,15,13,.22)}
+  .app-sidebar.open{transform:none}
+  .sidebar-backdrop{position:fixed;inset:0;z-index:89;background:rgba(23,23,21,.35);animation:msgIn .15s ease both}
+  .sidebar-toggle{display:flex!important}
+  .sidebar-close{display:flex!important}
+}
+@media (min-width:901px){.sidebar-backdrop{display:none}}
+
+/* --- Grid helpers --- */
+@media (max-width:1100px){
+  .rg-4{grid-template-columns:repeat(2,1fr)!important}
+  .rg-3{grid-template-columns:repeat(2,1fr)!important}
+}
+@media (max-width:860px){
+  .rg-split{display:flex!important;flex-direction:column;overflow-y:auto}
+  .rg-split>div{overflow:visible!important;border-right:none!important;border-bottom:1px solid var(--border)}
+  .rg-split>div:last-child{border-bottom:none}
+}
+@media (max-width:760px){
+  .rg-2{grid-template-columns:1fr!important}
+  .rg-170{grid-template-columns:1fr!important;gap:8px!important}
+}
+@media (max-width:560px){
+  .rg-4,.rg-3{grid-template-columns:1fr!important}
+  .stat-3,.stat-2{grid-template-columns:1fr!important}
+  .stat-3>div,.stat-2>div{border-right:none!important;border-bottom:1px solid var(--border)}
+  .stat-3>div:last-child,.stat-2>div:last-child{border-bottom:none}
+}
+
+/* --- Fixed side panes --- */
+@media (max-width:1200px){.intake-pane{width:300px!important}}
+@media (max-width:900px){
+  .intake-pane{display:none!important}
+  .wf-palette{position:fixed!important;left:0;top:46px;bottom:0;z-index:60;width:min(260px,80vw)!important;box-shadow:18px 0 44px rgba(16,15,13,.16);border-right:1px solid var(--border)}
+}
+@media (max-width:1000px){
+  .wf-inspector{position:fixed!important;top:46px;right:0;bottom:0;z-index:60;width:min(320px,92vw)!important;box-shadow:-18px 0 44px rgba(16,15,13,.16)}
+}
+
+/* --- Content wrappers & headers --- */
+@media (max-width:760px){
+  .view-wrap{padding-left:18px!important;padding-right:18px!important;padding-top:32px!important;padding-bottom:56px!important}
+  .hdr-resp{flex-wrap:wrap!important;height:auto!important;min-height:46px;padding-top:8px!important;padding-bottom:8px!important;row-gap:8px}
+  .deal-hdr{flex-wrap:wrap!important;padding:14px 18px!important;row-gap:10px}
+  .thread-scroll{padding:28px 16px 16px!important}
+  .composer-wrap{padding-left:14px!important;padding-right:14px!important}
+  .toolbar-resp{flex-wrap:wrap!important;row-gap:8px}
+  .toolbar-resp>div:first-child{min-width:100%}
+  .field-row{flex-wrap:wrap!important;row-gap:2px}
+  .field-row>span:nth-child(2){width:auto!important}
+  .field-row>span:last-child{width:100%;text-align:left!important;padding-left:26px}
+  .wrap-sm{flex-wrap:wrap!important;row-gap:8px}
+}
